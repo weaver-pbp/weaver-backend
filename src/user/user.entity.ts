@@ -8,14 +8,8 @@ export default class User {
         type: "binary",
         length: 16,
         transformer: {
-            from: dbValue => {
-                console.log(dbValue);
-                return uuid.stringify(dbValue);
-            },
-            to: entityValue => {
-                console.log(entityValue);
-                return Buffer.from(uuid.parse(entityValue));
-            },
+            from: dbValue => uuid.stringify(dbValue),
+            to: entityValue => Buffer.from(uuid.parse(entityValue)),
         },
     })
     public uid: string;
