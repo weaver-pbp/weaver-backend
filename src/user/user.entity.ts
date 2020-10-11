@@ -1,23 +1,37 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
     Entity,
-    Unique,
     Column,
     PrimaryColumn,
     BeforeInsert,
     getManager,
+    BeforeUpdate,
+    Not,
+    FindOperator,
+    Index,
 } from "typeorm";
 import * as uuid from "uuid";
 
 @Entity()
-@Unique(["username", "tag"])
+@Index(["username", "tag"], { unique: true })
 export default class User {
     @PrimaryColumn({
         type: "binary",
         length: 16,
         transformer: {
             from: dbValue => uuid.stringify(dbValue),
-            to: entityValue => Buffer.from(uuid.parse(entityValue)),
+            to: entityValue => {
+                if (entityValue instanceof FindOperator) {
+                    return new FindOperator(
+                        entityValue.type as any,
+                        Buffer.from(uuid.parse(entityValue.value)),
+                        entityValue.useParameter,
+                        entityValue.multipleParameters
+                    );
+                } else {
+                    return Buffer.from(uuid.parse(entityValue));
+                }
+            },
         },
     })
     @ApiProperty()
@@ -42,21 +56,6 @@ export default class User {
     generateUID() {
         if (!this.uid) {
             this.uid = uuid.v4();
-        }
-    }
-
-    @BeforeInsert()
-    async generateTag() {
-        if (!this.tag) {
-            const userRepository = getManager().getRepository(User);
-
-            do {
-                this.tag = Math.floor(Math.random() * 9999);
-            } while (
-                await userRepository.findOne({
-                    where: { username: this.username, tag: this.tag },
-                })
-            );
         }
     }
 }

@@ -6,6 +6,7 @@ import * as session from "express-session";
 import * as passport from "passport";
 import { SESSION_SECRET } from "utils/secrets";
 import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -28,6 +29,13 @@ async function bootstrap() {
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup("api", app, document);
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+        })
+    );
 
     await app.listen(3000);
 }

@@ -37,6 +37,12 @@ export class UserService {
         return user;
     }
 
+    async updateUser(user: Partial<User>) {
+        const result = await this.userRepository.save(user);
+
+        return result;
+    }
+
     async createNewUser(email: string, password: string, username: string) {
         const passwordHash = await bcrypt.hash(password, 10);
 
