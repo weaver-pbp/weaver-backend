@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import User from "./user.entity";
 
 import * as bcrypt from "bcrypt";
+import { EmailInUseException } from "common/exceptions/email-in-use.exception";
 
 @Injectable()
 export class UserService {
@@ -38,10 +39,15 @@ export class UserService {
     }
 
     async updateUser(user: Partial<User>) {
-        const updatedUser = await this.userRepository.preload(user);
-        const result = await this.userRepository.save(updatedUser);
-
-        return result;
+        try {
+            const updatedUser = await this.userRepository.preload(user);
+            const result = await this.userRepository.save(updatedUser);
+            return result;
+        } catch (e) {
+            if (e.code === "ER_DUP_ENTRY") {
+                throw new EmailInUseException();
+            }
+        }
     }
 
     async createNewUser(email: string, password: string, username: string) {
@@ -53,10 +59,16 @@ export class UserService {
             username,
         });
 
-        const { passwordHash: _, ...result } = await this.userRepository.save(
-            user
-        );
-
-        return result as User;
+        try {
+            const {
+                passwordHash: _,
+                ...result
+            } = await this.userRepository.save(user);
+            return result as User;
+        } catch (e) {
+            if (e.code === "ER_DUP_ENTRY") {
+                throw new EmailInUseException();
+            }
+        }
     }
 }
