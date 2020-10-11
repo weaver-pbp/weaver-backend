@@ -38,7 +38,8 @@ export class UserService {
     }
 
     async updateUser(user: Partial<User>) {
-        const result = await this.userRepository.save(user);
+        const updatedUser = await this.userRepository.preload(user);
+        const result = await this.userRepository.save(updatedUser);
 
         return result;
     }
