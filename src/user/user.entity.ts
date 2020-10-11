@@ -4,9 +4,6 @@ import {
     Column,
     PrimaryColumn,
     BeforeInsert,
-    getManager,
-    BeforeUpdate,
-    Not,
     FindOperator,
     Index,
 } from "typeorm";
