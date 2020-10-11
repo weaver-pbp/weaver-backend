@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
     Entity,
     Unique,
@@ -19,15 +20,19 @@ export default class User {
             to: entityValue => Buffer.from(uuid.parse(entityValue)),
         },
     })
+    @ApiProperty()
     public uid: string;
 
     @Column()
+    @ApiProperty()
     public username: string;
 
     @Column()
+    @ApiProperty()
     public tag: number;
 
     @Column({ unique: true })
+    @ApiProperty()
     public email: string;
 
     @Column({ select: false })
@@ -44,7 +49,6 @@ export default class User {
     async generateTag() {
         if (!this.tag) {
             const userRepository = getManager().getRepository(User);
-            const foundUnique = false;
 
             do {
                 this.tag = Math.floor(Math.random() * 9999);

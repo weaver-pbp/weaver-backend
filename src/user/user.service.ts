@@ -50,6 +50,6 @@ export class UserService {
             user
         );
 
-        return result;
+        return result as User;
     }
 }
