@@ -1,4 +1,11 @@
-import { Controller, Post, UseGuards, Request, Body } from "@nestjs/common";
+import {
+    Controller,
+    Post,
+    UseGuards,
+    Request,
+    Body,
+    Get,
+} from "@nestjs/common";
 import { ApiResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
 import { LoginGuard } from "common/guards/login.guard";
@@ -35,5 +42,14 @@ export class AuthController {
     @ApiResponse({ status: 200, description: "Logout was successful." })
     async logout(@Request() req) {
         return req.logout();
+    }
+
+    @Get("check")
+    @ApiResponse({
+        status: 200,
+        description: "Returns whether the request was authenticated or not",
+    })
+    async check(@Request() req) {
+        return req.isAuthenticated();
     }
 }
