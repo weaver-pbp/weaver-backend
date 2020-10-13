@@ -5,6 +5,7 @@ import {
     Request,
     Body,
     Get,
+    HttpCode,
 } from "@nestjs/common";
 import { ApiResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
@@ -21,6 +22,7 @@ export class AuthController {
 
     @UseGuards(LoginGuard)
     @Post("login")
+    @HttpCode(200)
     @ApiResponse({ status: 200, description: "Login was successful." })
     @ApiUnauthorizedResponse()
     async login(@Request() req, @Body() body: LoginDto): Promise<User> {
