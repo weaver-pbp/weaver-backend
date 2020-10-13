@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { ErrorCode } from "./error-codes";
 
-export class EmailInUseException extends HttpException {
+export class PasswordIncorrectException extends HttpException {
     constructor() {
         super(
             {
-                message: "Email already in use.",
-                code: ErrorCode.EMAIL_IN_USE,
+                message: "Password incorrect.",
+                code: ErrorCode.PASSWORD_INCORRECT,
             },
             HttpStatus.BAD_REQUEST
         );

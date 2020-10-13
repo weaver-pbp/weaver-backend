@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { ErrorCode } from "./error-codes";
 
-export class EmailInUseException extends HttpException {
+export class UserNotFoundException extends HttpException {
     constructor() {
         super(
             {
-                message: "Email already in use.",
-                code: ErrorCode.EMAIL_IN_USE,
+                message: "User not found.",
+                code: ErrorCode.USER_NOT_FOUND,
             },
             HttpStatus.BAD_REQUEST
         );
