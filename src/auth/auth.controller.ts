@@ -6,6 +6,8 @@ import {
     Body,
     Get,
     HttpCode,
+    HttpException,
+    HttpStatus,
 } from "@nestjs/common";
 import { ApiResponse, ApiTags, ApiBadRequestResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
@@ -31,12 +33,21 @@ export class AuthController {
 
     @Post("register")
     @ApiResponse({ status: 200, description: "Registration was successful." })
-    async register(@Body() body: RegisterDto): Promise<User> {
-        return await this.userService.createNewUser(
+    async register(@Request() req, @Body() body: RegisterDto): Promise<User> {
+        const result = await this.userService.createNewUser(
             body.email,
             body.password,
             body.username
         );
+
+        req.logIn(result, error => {
+            throw new HttpException(
+                { message: "Created user but couldn't log in." },
+                HttpStatus.CREATED
+            );
+        });
+
+        return result;
     }
 
     @Auth()
