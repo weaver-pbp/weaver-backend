@@ -3,20 +3,20 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class LoggerService {
     info(message: string) {
-        console.log(`[info] ${message}`);
+        console.log(`[weaver] [info] ${message}`);
     }
 
     warning(message: string) {
-        console.warn(`[warn] ${message}`);
+        console.warn(`[weaver] [warn] ${message}`);
     }
 
     error(message: string) {
-        console.error(`[err] ${message}`);
+        console.error(`[weaver] [err] ${message}`);
     }
 
     async wrap<T>(message: string, promise: Promise<T>): Promise<T> {
-        promise.catch((reason) => {
-            console.error(`${message} failed with error: ${reason}.`);
+        promise.catch(reason => {
+            this.error(`"${message}" failed with error: ${reason}`);
         });
 
         return promise;

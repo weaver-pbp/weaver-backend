@@ -7,4 +7,4 @@ import { LoggerService } from "common/logger/logger.service";
 @Module({
     imports: [TypeOrmModule.forRoot(), UserModule, AuthModule],
 })
-export class AppModule { }
+export class AppModule {}

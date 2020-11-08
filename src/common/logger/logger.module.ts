@@ -5,6 +5,6 @@ import { LoggerService } from "./logger.service";
 @Module({
     imports: [LoggerService],
     providers: [LoggerService],
-    exports: [LoggerService]
+    exports: [LoggerService],
 })
-export class LoggerModule { }
+export class LoggerModule {}

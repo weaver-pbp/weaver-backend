@@ -7,7 +7,11 @@ describe("AuthController", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [AuthService, { provide: "UserService", useValue: {} }],
+            providers: [
+                AuthService,
+                { provide: "UserService", useValue: {} },
+                { provide: "LoggerService", useValue: {} },
+            ],
             controllers: [AuthController],
         }).compile();
 

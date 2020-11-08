@@ -12,4 +12,4 @@ import { LoggerModule } from "common/logger/logger.module";
     providers: [AuthService, LocalStrategy, SessionSerializer],
     controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}
