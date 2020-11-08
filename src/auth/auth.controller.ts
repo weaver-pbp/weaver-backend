@@ -12,6 +12,7 @@ import {
 import { ApiResponse, ApiTags, ApiBadRequestResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
 import { LoginGuard } from "common/guards/login.guard";
+import { LoggerService } from "common/logger/logger.service";
 import User from "user/user.entity";
 import { UserService } from "user/user.service";
 import { LoginDto } from "./dto/login.dto";
@@ -20,7 +21,7 @@ import { RegisterDto } from "./dto/register.dto";
 @ApiTags("auth")
 @Controller("auth")
 export class AuthController {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private loggerService: LoggerService) { }
 
     @UseGuards(LoginGuard)
     @Post("login")
@@ -34,10 +35,13 @@ export class AuthController {
     @Post("register")
     @ApiResponse({ status: 200, description: "Registration was successful." })
     async register(@Request() req, @Body() body: RegisterDto): Promise<User> {
-        const result = await this.userService.createNewUser(
-            body.email,
-            body.password,
-            body.username
+        const result = await this.loggerService.wrap(
+            "Create new user",
+            this.userService.createNewUser(
+                body.email,
+                body.password,
+                body.username
+            )
         );
 
         req.logIn(result, error => {
