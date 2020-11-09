@@ -1,36 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-    Entity,
-    Column,
-    PrimaryColumn,
-    BeforeInsert,
-    FindOperator,
-    Index,
-} from "typeorm";
+import { UUIDColumn } from "common/decorators/uuid-column.decorator";
+import { Entity, Column, BeforeInsert, Index } from "typeorm";
 import * as uuid from "uuid";
 
 @Entity()
 @Index(["username", "tag"], { unique: true })
 export default class User {
-    @PrimaryColumn({
-        type: "binary",
-        length: 16,
-        transformer: {
-            from: dbValue => uuid.stringify(dbValue),
-            to: entityValue => {
-                if (entityValue instanceof FindOperator) {
-                    return new FindOperator(
-                        entityValue.type as any,
-                        Buffer.from(uuid.parse(entityValue.value)),
-                        entityValue.useParameter,
-                        entityValue.multipleParameters
-                    );
-                } else {
-                    return Buffer.from(uuid.parse(entityValue));
-                }
-            },
-        },
-    })
+    @UUIDColumn()
     @ApiProperty()
     public uid: string;
 
