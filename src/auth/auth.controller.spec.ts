@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { LoggerService } from "logger/logger.service";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 
@@ -10,7 +11,7 @@ describe("AuthController", () => {
             providers: [
                 AuthService,
                 { provide: "UserService", useValue: {} },
-                { provide: "LoggerService", useValue: {} },
+                { provide: "LoggerService", useValue: new LoggerService() },
             ],
             controllers: [AuthController],
         }).compile();

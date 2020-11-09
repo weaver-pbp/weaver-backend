@@ -12,7 +12,7 @@ import {
 import { ApiResponse, ApiTags, ApiBadRequestResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
 import { LoginGuard } from "common/guards/login.guard";
-import { LoggerService } from "common/logger/logger.service";
+import { LoggerService } from "logger/logger.service";
 import User from "user/user.entity";
 import { UserService } from "user/user.service";
 import { LoginDto } from "./dto/login.dto";
@@ -24,7 +24,9 @@ export class AuthController {
     constructor(
         private userService: UserService,
         private loggerService: LoggerService
-    ) {}
+    ) {
+        loggerService.setContext("Auth Controller");
+    }
 
     @UseGuards(LoginGuard)
     @Post("login")

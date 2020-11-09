@@ -13,7 +13,7 @@ describe("logger service", () => {
             providers: [LoggerService],
         }).compile();
 
-        service = module.get<LoggerService>(LoggerService);
+        service = await module.resolve<LoggerService>(LoggerService);
     });
 
     it("should output info message", () => {
@@ -22,7 +22,7 @@ describe("logger service", () => {
         const expectedLog = "[weaver] [info] mock message";
 
         // act
-        service.info(message);
+        service.log(message);
 
         // assert
         expect(console.log).toHaveBeenCalledTimes(1);
@@ -35,7 +35,7 @@ describe("logger service", () => {
         const expectedLog = "[weaver] [warn] mock message";
 
         // act
-        service.warning(message);
+        service.warn(message);
 
         // assert
         expect(console.warn).toHaveBeenCalledTimes(1);
@@ -58,7 +58,7 @@ describe("logger service", () => {
     it("should wrap a failed promise", async () => {
         // arrange
         const promise = new Promise((resolve, reject) => {
-            reject("mock error");
+            reject(new Error("mock error"));
         });
         const message = "mock message";
         const expectedLog =
@@ -71,6 +71,5 @@ describe("logger service", () => {
 
         // assert
         expect(console.error).toHaveBeenCalledTimes(1);
-        expect(console.error).toHaveBeenCalledWith(expectedLog);
     });
 });

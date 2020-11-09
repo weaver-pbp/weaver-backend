@@ -5,7 +5,7 @@ import { LocalStrategy } from "./local.strategy";
 import { SessionSerializer } from "./session.serializer";
 import { PassportModule } from "@nestjs/passport";
 import { UserModule } from "user/user.module";
-import { LoggerModule } from "common/logger/logger.module";
+import { LoggerModule } from "logger/logger.module";
 
 @Module({
     imports: [UserModule, PassportModule, LoggerModule],

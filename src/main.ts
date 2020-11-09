@@ -7,6 +7,7 @@ import * as passport from "passport";
 import { SESSION_SECRET } from "utils/secrets";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
+import { LoggerService } from "logger/logger.service";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -15,6 +16,8 @@ async function bootstrap() {
             credentials: true,
         },
     });
+
+    app.useLogger(new LoggerService());
 
     app.use(
         session({
