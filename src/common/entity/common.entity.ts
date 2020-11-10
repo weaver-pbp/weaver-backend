@@ -3,7 +3,7 @@ import * as uuid from "uuid";
 import { BeforeInsert } from "typeorm";
 
 export default abstract class CommonEntity {
-    @UUIDColumn()
+    @UUIDColumn({ primary: true })
     public id: string;
 
     @BeforeInsert()

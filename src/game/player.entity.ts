@@ -1,3 +1,4 @@
+import { UUIDColumn } from "common/decorators/uuid-column.decorator";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import User from "user/user.entity";
 import Game from "./game.entity";
@@ -8,13 +9,13 @@ export default class Player {
     @JoinColumn({ name: "game_id" })
     public game: Game;
 
-    @Column({ primary: true })
+    @UUIDColumn({ primary: true })
     public game_id: string;
 
     @ManyToOne(type => User)
     @JoinColumn({ name: "user_id" })
     public user: User;
 
-    @Column({ primary: true })
+    @UUIDColumn({ primary: true })
     public user_id: string;
 }

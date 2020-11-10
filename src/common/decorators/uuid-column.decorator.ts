@@ -1,10 +1,10 @@
 import { applyDecorators } from "@nestjs/common";
-import { FindOperator, PrimaryColumn } from "typeorm";
+import { Column, ColumnOptions, FindOperator } from "typeorm";
 import * as uuid from "uuid";
 
-export function UUIDColumn() {
+export function UUIDColumn(params: ColumnOptions = {}) {
     return applyDecorators(
-        PrimaryColumn({
+        Column({
             type: "binary",
             length: 16,
             transformer: {
@@ -22,6 +22,7 @@ export function UUIDColumn() {
                     }
                 },
             },
+            ...params,
         })
     );
 }
