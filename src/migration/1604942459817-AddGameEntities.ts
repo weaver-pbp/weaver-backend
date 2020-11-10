@@ -17,13 +17,13 @@ export class AddGameEntities1604942459817 implements MigrationInterface {
             "ALTER TABLE `gm` ADD CONSTRAINT `FK_f51bbc19c2dda02faa52048c052` FOREIGN KEY (`game_id`) REFERENCES `game`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION"
         );
         await queryRunner.query(
-            "ALTER TABLE `gm` ADD CONSTRAINT `FK_6777b74ecd80d7a8ec70daec56e` FOREIGN KEY (`user_id`) REFERENCES `user`(`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION"
+            "ALTER TABLE `gm` ADD CONSTRAINT `FK_6777b74ecd80d7a8ec70daec56e` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION"
         );
         await queryRunner.query(
             "ALTER TABLE `player` ADD CONSTRAINT `FK_433f544c592c2b6cbdfd2edbec3` FOREIGN KEY (`game_id`) REFERENCES `game`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION"
         );
         await queryRunner.query(
-            "ALTER TABLE `player` ADD CONSTRAINT `FK_d04e64fc9b7fd372000c0dfda3f` FOREIGN KEY (`user_id`) REFERENCES `user`(`uid`) ON DELETE NO ACTION ON UPDATE NO ACTION"
+            "ALTER TABLE `player` ADD CONSTRAINT `FK_d04e64fc9b7fd372000c0dfda3f` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION"
         );
     }
 

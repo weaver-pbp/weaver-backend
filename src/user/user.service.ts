@@ -21,9 +21,9 @@ export class UserService {
         return user;
     }
 
-    async findUserById(uid: string) {
+    async findUserById(id: string) {
         const user = await this.userRepository.findOne({
-            where: { uid },
+            where: { id },
         });
 
         return user;
@@ -32,7 +32,7 @@ export class UserService {
     async findUserByEmail(email: string) {
         const user = await this.userRepository.findOne({
             where: { email },
-            select: ["uid", "username", "tag", "email", "passwordHash"],
+            select: ["id", "username", "tag", "email", "passwordHash"],
         });
 
         return user;

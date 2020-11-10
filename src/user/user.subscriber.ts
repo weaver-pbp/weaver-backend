@@ -21,7 +21,7 @@ export class UserSubscriber implements EntitySubscriberInterface<User> {
             !entity.tag ||
             (await userRepository.findOne({
                 where: {
-                    uid: Not(entity.uid),
+                    id: Not(entity.id),
                     username: entity.username,
                     tag: entity.tag,
                 },

@@ -5,7 +5,7 @@ export class AddUser1602427315141 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            "CREATE TABLE `user` (`uid` binary(16) NOT NULL, `username` varchar(255) NOT NULL, `tag` int NOT NULL, `email` varchar(255) NOT NULL, UNIQUE INDEX `IDX_e12875dfb3b1d92d7d7c5377e2` (`email`), UNIQUE INDEX `IDX_f46a6ca4a887719d30670f65bc` (`username`, `tag`), PRIMARY KEY (`uid`)) ENGINE=InnoDB"
+            "CREATE TABLE `user` (`id` binary(16) NOT NULL, `username` varchar(255) NOT NULL, `tag` int NOT NULL, `email` varchar(255) NOT NULL, UNIQUE INDEX `IDX_e12875dfb3b1d92d7d7c5377e2` (`email`), UNIQUE INDEX `IDX_f46a6ca4a887719d30670f65bc` (`username`, `tag`), PRIMARY KEY (`id`)) ENGINE=InnoDB"
         );
     }
 

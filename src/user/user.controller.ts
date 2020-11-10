@@ -15,7 +15,7 @@ export class UserController {
     @Get("me")
     @ApiOkResponse({ description: "Returns the current user.", type: User })
     async getCurrentUser(@Request() req): Promise<User> {
-        return await this.userService.findUserById(req.user.uid);
+        return await this.userService.findUserById(req.user.id);
     }
 
     @Auth()
@@ -25,6 +25,6 @@ export class UserController {
         @Body() body: UpdateUserDto,
         @CurrentUser() user: User
     ): Promise<User> {
-        return await this.userService.updateUser({ uid: user.uid, ...body });
+        return await this.userService.updateUser({ id: user.id, ...body });
     }
 }
