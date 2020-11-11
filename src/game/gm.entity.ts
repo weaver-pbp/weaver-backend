@@ -5,6 +5,15 @@ import Game from "./game.entity";
 
 @Entity()
 export default class GM {
+    public constructor({ game, user }: { game?: Game; user?: User } = {}) {
+        if (game) {
+            this.game = game;
+        }
+        if (user) {
+            this.user = user;
+        }
+    }
+
     @ManyToOne(
         type => Game,
         game => game.gms,

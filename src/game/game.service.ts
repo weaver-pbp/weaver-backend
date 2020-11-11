@@ -1,8 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import {
+    InjectConnection,
+    InjectEntityManager,
+    InjectRepository,
+} from "@nestjs/typeorm";
+import {
+    Connection,
+    EntityManager,
+    Repository,
+    Transaction,
+    TransactionRepository,
+} from "typeorm";
 import User from "user/user.entity";
 import Game from "./game.entity";
+import GM from "./gm.entity";
 
 @Injectable()
 export class GameService {
@@ -27,6 +38,7 @@ export class GameService {
             owner,
             name,
             description,
+            gms: [new GM({ user: owner })],
         });
 
         const result = await this.gameRepository.save(game);

@@ -22,13 +22,15 @@ export default class Game extends CommonEntity {
 
     @OneToMany(
         type => GM,
-        gm => gm.game
+        gm => gm.game,
+        { cascade: ["insert"] }
     )
     public gms: GM[];
 
     @OneToMany(
         type => Player,
-        player => player.game
+        player => player.game,
+        { cascade: ["insert"] }
     )
     public players: Player[];
 }
