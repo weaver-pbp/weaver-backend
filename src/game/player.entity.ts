@@ -5,7 +5,11 @@ import Game from "./game.entity";
 
 @Entity()
 export default class Player {
-    @ManyToOne(type => Game)
+    @ManyToOne(
+        type => Game,
+        game => game.players,
+        { eager: true }
+    )
     @JoinColumn({ name: "game_id" })
     public game: Game;
 

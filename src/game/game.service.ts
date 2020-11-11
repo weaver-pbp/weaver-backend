@@ -11,6 +11,17 @@ export class GameService {
         private readonly gameRepository: Repository<Game>
     ) {}
 
+    async getGamesOwnedBy(owner: User) {
+        const games = this.gameRepository.find({
+            where: {
+                owner_id: owner.id,
+            },
+            relations: ["gms", "players"],
+        });
+
+        return games;
+    }
+
     async createGame(owner: User, name: string, description: string) {
         const game = this.gameRepository.create({
             owner,

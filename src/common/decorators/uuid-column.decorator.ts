@@ -8,7 +8,13 @@ export function UUIDColumn(params: ColumnOptions = {}) {
             type: "binary",
             length: 16,
             transformer: {
-                from: dbValue => uuid.stringify(dbValue),
+                from: dbValue => {
+                    if (dbValue) {
+                        return uuid.stringify(dbValue);
+                    } else {
+                        return null;
+                    }
+                },
                 to: entityValue => {
                     if (entityValue instanceof FindOperator) {
                         return new FindOperator(
