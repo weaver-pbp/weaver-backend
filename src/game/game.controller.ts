@@ -1,5 +1,18 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
-import { ApiNotFoundResponse, ApiOkResponse } from "@nestjs/swagger";
+import {
+    Body,
+    Controller,
+    DefaultValuePipe,
+    Get,
+    Param,
+    ParseBoolPipe,
+    Post,
+    Query,
+} from "@nestjs/common";
+import {
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+} from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
 import { CurrentUser } from "common/decorators/current-user.decorator";
 import { userInfo } from "os";
@@ -33,6 +46,55 @@ export class GameController {
     })
     async getGameById(@CurrentUser() user: User, @Param("id") id: string) {
         return await this.gameService.getGameById(id, user);
+    }
+
+    @Auth()
+    @Post("/:id/invite")
+    @ApiOkResponse({
+        description:
+            "Returns the invite token for the game. Token expires after 7 days.",
+        type: String,
+    })
+    @ApiNotFoundResponse({
+        description: "Game with that ID not found.",
+    })
+    async getTokenForGame(
+        @CurrentUser() user: User,
+        @Param("id") id: string,
+        @Query("gm", new DefaultValuePipe(false), ParseBoolPipe) forGM: boolean
+    ) {
+        const game = await this.gameService.getGameById(id, user);
+        const tokenObj = await this.gameService.createInviteToken(game, forGM);
+        return tokenObj.token;
+    }
+
+    @Auth()
+    @Get("/withToken/:token")
+    @ApiOkResponse({
+        description:
+            "Returns the game corresponding to the invite token provided.",
+    })
+    @ApiNotFoundResponse({
+        description: "Token was invalid or not found.",
+    })
+    async getGameByToken(@Param("token") token: string) {
+        return await this.gameService.getGameByToken(token);
+    }
+
+    @Auth()
+    @Post("/withToken/:token/join")
+    @ApiOkResponse({
+        description:
+            "Returns the game corresponding to the invite token provided.",
+    })
+    @ApiNotFoundResponse({
+        description: "Token was invalid or not found.",
+    })
+    async joinGameByToken(
+        @CurrentUser() user: User,
+        @Param("token") token: string
+    ) {
+        return await this.gameService.joinGameByToken(user, token);
     }
 
     @Auth()

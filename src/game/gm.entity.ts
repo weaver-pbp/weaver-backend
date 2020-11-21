@@ -16,8 +16,7 @@ export default class GM {
 
     @ManyToOne(
         type => Game,
-        game => game.gms,
-        { eager: true }
+        game => game.gms
     )
     @JoinColumn({ name: "game_id" })
     public game: Game;

@@ -7,8 +7,7 @@ import Game from "./game.entity";
 export default class Player {
     @ManyToOne(
         type => Game,
-        game => game.players,
-        { eager: true }
+        game => game.players
     )
     @JoinColumn({ name: "game_id" })
     public game: Game;
