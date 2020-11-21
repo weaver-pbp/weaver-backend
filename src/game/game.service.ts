@@ -38,9 +38,15 @@ export class GameService {
         return games;
     }
 
-    async getGameById(id: string) {
+    async getGameById(id: string, userIn: User) {
         try {
-            const game = await this.gameRepository.findOneOrFail(id, {
+            const game = await this.gameRepository.findOneOrFail({
+                where: userIn
+                    ? [
+                          { id, gms: { id: userIn.id } },
+                          { id, players: { id: userIn.id } },
+                      ]
+                    : { id },
                 relations: ["owner", "players", "gms"],
             });
 

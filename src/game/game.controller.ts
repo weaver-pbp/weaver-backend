@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse } from "@nestjs/swagger";
 import { Auth } from "common/decorators/auth.decorator";
 import { CurrentUser } from "common/decorators/current-user.decorator";
+import { userInfo } from "os";
 import User from "user/user.entity";
 import { CreateGameDto } from "./dto/create-game.dto";
 import Game from "./game.entity";
@@ -24,14 +25,14 @@ export class GameController {
     @Auth()
     @Get("/:id")
     @ApiOkResponse({
-        description: "Returns the requested game.",
+        description: "Returns the requested game, if you are in it.",
         type: Game,
     })
     @ApiNotFoundResponse({
         description: "Game with that ID not found.",
     })
-    async getGameById(@Param("id") id: string) {
-        return await this.gameService.getGameById(id);
+    async getGameById(@CurrentUser() user: User, @Param("id") id: string) {
+        return await this.gameService.getGameById(id, user);
     }
 
     @Auth()
